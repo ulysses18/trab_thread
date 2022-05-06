@@ -64,37 +64,37 @@ int main() {
 	// pipe2[2] = {};		// comunicacao filho -> pai
     
     pthread_t thread1, thread2;
-    canos claudio;
+    canos pipe_str;
 
-   if ((pipe(claudio.pipe1) < 0) || (pipe(claudio.pipe2) < 0)) {
+   if ((pipe(pipe_str.pipe1) < 0) || (pipe(pipe_str.pipe2) < 0)) {
 	printf("Erro na chamada pipe!\n");
 	exit(0);
    }
 
    // Fork para criar o processo filho
-   descritor = pthread_create(&thread1, NULL, client, &claudio);
+   descritor = pthread_create(&thread1, NULL, client, &pipe_str);
    if(descritor != 0) {
         printf("Erro na chamada fork!\n");
 	exit(0);
    } else if (descritor > 0) {		// Processo PAI
-	close(claudio.pipe1[0]);		// fecha leitura no pipe1
-	close(claudio.pipe2[1]);		// fecha escrita no pipe2
+	close(pipe_str.pipe1[0]);		// fecha leitura no pipe1
+	close(pipe_str.pipe2[1]);		// fecha escrita no pipe2
 
 	// Chama CLIENTE no PAI
 	// client(pipe2[0], pipe1[1]);
 
-	close(claudio.pipe1[1]);		// fecha pipe1
-	close(claudio.pipe2[0]);		// fecha pipe2
+	close(pipe_str.pipe1[1]);		// fecha pipe1
+	close(pipe_str.pipe2[0]);		// fecha pipe2
 	exit(0);			// Fim do Processo PAI
    } else {				// Processo FILHO
-	close(claudio.pipe1[1]);		// fecha escrita no pipe1
-	close(claudio.pipe2[0]);		// fecha leitura no pipe2
+	close(pipe_str.pipe1[1]);		// fecha escrita no pipe1
+	close(pipe_str.pipe2[0]);		// fecha leitura no pipe2
 
 	// Chama SERVIDOR no FILHO
-	server(claudio.pipe1[0], claudio.pipe2[1]);
+	server(pipe_str.pipe1[0], pipe_str.pipe2[1]);
 
-	close(claudio.pipe1[0]);		// fecha leitura no pipe1
-	close(claudio.pipe2[1]);		// fecha escrita no pipe2
+	close(pipe_str.pipe1[0]);		// fecha leitura no pipe1
+	close(pipe_str.pipe2[1]);		// fecha escrita no pipe2
 	exit(0);
    }					// Fim do Processo FILHO
    return(0);
