@@ -1,9 +1,8 @@
-/* Source: chat_pobre.c
-   Compilar: clang -Wall -static chat_pobre.c -o chat
-             gcc -Wall -static chat_pobre.c -o chat
-             -Wall (todas as advertencias de compilacao)
-   Hearders: man pipe (SYNOPSIS: #include <unistd.h>)
- */
+/*
+Jean Martins
+Lucas Paiva
+Ulysses Ferreira
+*/
 
 #include "../includes/pipes.h"
 
